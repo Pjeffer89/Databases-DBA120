@@ -1,0 +1,42 @@
+CREATE TABLE `Classroom` (
+  `CampusID` (PK)(FK),
+  `BuildingID` (PK),
+  `ClassroomNumber` (PK),
+  `NumberOfSeats` <type>,
+  `NumberOfComputers` <type>,
+  `ProjectorModelNumber` <type>,
+  `PrinterModelNumber` <type>
+);
+
+
+CREATE TABLE `Building` (
+  `CampusID` (PK)(FK),
+  `BuildingID` (PK),
+  `BuildingName` <type>,
+  `DateOpened` <type>,
+  `NumberOfFloors` <type>,
+  `NumberOfElevators` <type>,
+  `FoodYN` <type>
+);
+
+
+CREATE TABLE `Campus` (
+  `CampusID` (PK),
+  `CampusName` <type>,
+  `Address` <type>,
+  `City` <type>,
+  `State` <type>,
+  `Zip` <type>,
+  `EmployeeOfContact` (FK),
+  `DateOpened` <type>
+);
+
+CREATE TABLE `Employee` (
+  `EmployeeID` (PK),
+  `LastName` <type>,
+  `FirstName` <type>,
+  `MiddleInitial` <type>,
+  `PhoneNumber` <type>,
+  `StartDate` <type>,
+  `Salary` <type>
+);

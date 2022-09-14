@@ -1,0 +1,4 @@
+SELECT product_id || ' ' || name "Product ID/Name", description "Product Description", price "Price"
+    FROM products
+    WHERE price BETWEEN 10 AND 30 AND description LIKE '%music%' OR description LIKE '%science%' AND name LIKE '%science%'
+    ORDER by price DESC;

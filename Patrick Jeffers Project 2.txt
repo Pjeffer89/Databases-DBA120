@@ -1,0 +1,100 @@
+-- Question 1
+SELECT Teams.TeamID||' '||Teams.TeamName AS "Winning Team", 
+       Teams.CaptainID||' '||Bowlers.BowlerLastName AS "Team Captain",
+       Bowler_Scores.MatchID AS "Match ID",
+       Bowler_Scores.GameNumber AS "Game #"
+       FROM Teams 
+       JOIN Bowlers ON Bowlers.TeamID = Teams.TeamID
+       JOIN Bowler_Scores ON Bowlers.BowlerID = Bowler_Scores.BowlerID
+       WHERE Bowler_Scores.WonGame = 'Y'
+       ORDER BY Teams.TeamID ASC, Bowler_Scores.MatchID ASC, Bowler_Scores.GameNumber ASC;
+
+-- Question 2
+SELECT Bowler_Scores.MatchID AS "Match",
+       Teams.TeamName AS "Team Name",
+       Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler Name",
+       Bowler_Scores.GameNumber AS "Game Number",
+       Bowler_Scores.RawScore AS "Raw Score"
+       FROM Bowler_Scores
+       JOIN Bowlers ON Bowlers.BowlerID = Bowler_Scores.BowlerID
+       JOIN Teams ON Teams.TeamID = Bowlers.TeamID;
+       WHERE Bowler_Scores.WonGame = 'N' AND Bowler_Scores.RawScore > 190;
+
+-- Question 3
+SELECT Tourney_Matches.TourneyID AS "Tour. #",
+       Tourney_Matches.MatchID AS "Match #",
+       Bowlers.BowlerID||' '||Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler",
+       Bowler_Scores.RawScore AS "Raw Score"
+       FROM Tourney_Matches
+       JOIN Bowler_Scores on Bowler_Scores.MatchID = Tourney_Matches.MatchID
+       JOIN Bowlers on Bowlers.BowlerID = Bowler_Scores.BowlerID
+       JOIN Tournaments on Tournaments.TourneyID = Tourney_Matches.TourneyID
+       WHERE Bowler_Scores.RawScore >= 180 AND TourneyLocation like 'Imperial Lanes'
+       ORDER BY Tourney_Matches.TourneyID, Bowler_Scores.RawScore DESC;
+
+-- Question 4
+SELECT TourneyID AS "Tourney ID",
+       TourneyDate AS "Tourney Date",
+       TourneyLocation AS "Location"
+       FROM Tournaments
+       WHERE TourneyDate > '11-JUL-13';
+
+-- Question 5
+SELECT Bowlers.BowlerID||' '||Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler",
+       MAX(Bowler_Scores.RawScore) "Highest Raw Score"
+       FROM Bowlers
+       JOIN Bowler_Scores on Bowler_Scores.BowlerID = Bowlers.BowlerID
+       GROUP BY Bowlers.BowlerID, Bowlers.BowlerFirstName, Bowlers.BowlerLastName
+       ORDER BY Bowlers.BowlerID ASC;
+
+-- Question 6
+SELECT Bowlers.BowlerID AS "Bowler ID",
+       Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler Name",
+       ROUND(((200 - AVG(Bowler_Scores.RawScore))*.9),0) AS "Handicap"
+       FROM Bowlers
+       JOIN Bowler_Scores ON Bowler_Scores.BowlerID = Bowlers.BowlerID
+       GROUP BY Bowlers.BowlerID, Bowlers.BowlerFirstName, BowlerLastName
+       ORDER BY (ROUND(((200 - AVG(Bowler_Scores.RawScore))*.9),0)) DESC;
+
+-- Question 7
+SELECT Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler Name",
+       ROUND(AVG(Bowler_Scores.RawScore),0) AS "Current Average",
+       MAX(Bowler_Scores.RawScore) AS "High Score"
+       FROM Bowlers
+       JOIN Bowler_Scores ON Bowler_Scores.BowlerID = Bowlers.BowlerID
+       GROUP BY Bowlers.BowlerFirstName, Bowlers.BowlerLastName
+       HAVING (MAX(Bowler_Scores.RawScore) - AVG(Bowler_Scores.RawScore)) > 20
+       ORDER BY Bowlers.BowlerFirstName;
+
+-- Question 8
+SELECT Bowlers.BowlerFirstName||' '||Bowlers.BowlerLastName AS "Bowler Name",
+       ROUND(AVG(Bowler_Scores.RawScore),0) AS "Avg. Raw Score"
+       FROM Bowlers
+       JOIN Bowler_Scores ON Bowler_Scores.BowlerID = Bowlers.BowlerID
+       GROUP BY Bowlers.BowlerFirstName, Bowlers.BowlerLastName
+       HAVING (AVG(Bowler_Scores.RawScore)) > 152
+       ORDER BY ROUND(AVG(Bowler_Scores.RawScore),0) DESC, Bowlers.BowlerLastName, Bowlers.BowlerFirstName;
+
+-- Question 9
+SELECT Tournaments.TourneyID||' '||Tournaments.TourneyLocation AS "Tournaments",
+       Tourney_Matches.MatchID AS "Match ID",
+       Teams.TeamName AS "Team Name",
+       TO_CHAR(SUM(Bowler_Scores.HandiCapScore), '9,999') AS "Total"
+       FROM Tournaments
+       JOIN Tourney_Matches ON Tourney_Matches.TourneyID = Tournaments.TourneyID
+       JOIN Bowler_Scores ON Tourney_Matches.MatchID = Bowler_Scores.MatchID
+       JOIN Bowlers ON Bowlers.BowlerID = Bowler_Scores.BowlerID
+       JOIN Teams ON Teams.TeamID = Bowlers.TeamID
+       GROUP BY Tournaments.TourneyID, Tournaments.TourneyLocation, Tourney_Matches.MatchID, Teams.TeamName
+       ORDER BY Tournaments.TourneyID ASC, SUM(Bowler_Scores.HandiCapScore) DESC;
+
+-- Question 10
+SELECT BowlerFirstName AS "First Name",
+       BowlerLastName AS "Last Name",
+       BowlerAddress AS "Address",
+       BowlerCity AS "City",
+       BowlerZip AS "Zipcode",
+       BowlerPhoneNumber AS "Phone Number"
+       FROM Bowlers
+       WHERE BowlerAddress LIKE '%Drive%' OR BowlerAddress LIKE '%Willow%'
+       ORDER BY BowlerLastName DESC, BowlerFirstName DESC;

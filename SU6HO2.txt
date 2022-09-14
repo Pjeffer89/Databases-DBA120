@@ -1,0 +1,4 @@
+SELECT products.name "Product Name", product_types.name "Product Type", products.price "Price"
+    FROM products LEFT OUTER JOIN product_types using (product_type_id)
+    WHERE products.price > 10
+    ORDER BY products.price DESC, products.name ASC;

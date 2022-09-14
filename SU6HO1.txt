@@ -1,0 +1,5 @@
+SELECT first_name || ' ' || last_name "Customer Name", products.name "Product Name", product_types.name "Product Type", price "Product $"
+    FROM customers JOIN purchases using (customer_id)
+    JOIN products USING (product_id)
+    JOIN product_types USING (product_type_id)
+    ORDER BY first_name ASC;

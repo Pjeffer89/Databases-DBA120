@@ -1,0 +1,7 @@
+SELECT first_name || ' ' || last_name "Customer Name", COALESCE(INITCAP(TO_CHAR(dob, 'MON.DD,YYYY')), 'Unknown') "DOB", COALESCE(phone, 'Unknown') "Phone#"
+    FROM customers
+    ORDER BY first_name ASC;
+
+SELECT first_name || ' ' || last_name "Customer Name", COALESCE(INITCAP(TO_CHAR(dob, 'MON.DD,YYYY')), 'Unknown') "DOB", COALESCE(phone, 'Unknown') "Phone#", REGEXP_SUBSTR(phone, '[0-9]{3}[0-9]{3}[0-9]{4}')
+    FROM customers
+    ORDER BY first_name ASC;

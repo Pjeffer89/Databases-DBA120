@@ -1,0 +1,3 @@
+SELECT  customer_id || ' ' || first_name || ' ' || last_name || ' - ' || address || ' ' || city || ', ' || state || ' ' || zipcode "Customer Information", COALESCE(dob, '') "Birth Date", phone "Phone #"
+    FROM customers
+    WHERE dob IS NULL;

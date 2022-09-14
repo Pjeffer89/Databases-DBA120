@@ -1,0 +1,6 @@
+SELECT product_type_id "Product Type", AVG(price) "Average $"
+    FROM products
+    WHERE price < 15
+    GROUP BY product_type_id
+    HAVING AVG(price) > 13
+    ORDER BY AVG(price) desc;

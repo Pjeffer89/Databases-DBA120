@@ -1,0 +1,11 @@
+INSERT INTO customers (customer_id, first_name, last_name, dob, phone, address, city, state, zipcode)
+VALUES (7, 'Patrick', 'Jeffers', '03-AUG-1981', '7045556789','6671 Main Street', 'Charlotte', 'NC', '28210');
+
+INSERT INTO purchases (product_id, customer_id, quantity)
+VALUES ('3', '7', '4');
+
+UPDATE purchases
+    SET quantity = quantity * 2
+    WHERE customer_ID = '7';
+    
+commit;

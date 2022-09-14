@@ -1,0 +1,259 @@
+CREATE TABLE employee (
+  EmployeeID NUMBER(3) NOT NULL,
+  LastName VARCHAR2(25) NOT NULL,
+  FirstName VARCHAR2(25) NOT NULL,
+  MiddleInitial CHAR(1),
+  PhoneNumber NUMBER(10) NOT NULL,
+  StartDate DATE NOT NULL,
+  Salary NUMBER(6) NOT NULL,
+      CONSTRAINT employee_EmployeeID_pk PRIMARY KEY (EmployeeID)
+);
+
+CREATE TABLE campus (
+  CampusID NUMBER(2)NOT NULL,
+  CampusName VARCHAR2(40) NOT NULL,
+  Address VARCHAR2(50) NOT NULL,
+  City VARCHAR2(40) NOT NULL,
+  State CHAR(2) NOT NULL,
+  Zip NUMBER(5) NOT NULL,
+  EmployeeOfContact VARCHAR2(40) NOT NULL,
+  DateOpened DATE NOT NULL,
+      CONSTRAINT campus_CampusID_pk PRIMARY KEY (CampusID),
+      CONSTRAINT campus_CampusName_uk UNIQUE (CampusName),
+      CONSTRAINT campus_EmployeeOfContact_fk FOREIGN KEY (EmployeeOfContact)
+      REFERENCES employee (EmployeeID)
+);
+
+CREATE TABLE building (
+  CampusID NUMBER(2) NOT NULL,
+  BuildingID NUMBER(2) NOT NULL,
+  BuildingName VARCHAR2(40) NOT NULL,
+  DateOpened DATE NOT NULL,
+  NumberOfFloors NUMBER(2) NOT NULL,
+  NumberOfElevators NUMBER(2) NOT NULL,
+  FoodYN CHAR(1),
+      CONSTRAINT building_CampusIDBuildingID_pk PRIMARY KEY (CampusID, BuildingID),
+      CONSTRAINT building_CampusID_fk FOREIGN KEY (CampusID)
+      REFERENCES campus (CampusID)
+);
+
+CREATE TABLE classroom (
+  CampusID NUMBER(2) NOT NULL,
+  BuildingID NUMBER(2) NOT NULL,
+  ClassroomNumber NUMBER(4) NOT NULL,
+  NumberOfSeats NUMBER(4) NOT NULL,
+  NumberOfComputers NUMBER(4) NOT NULL,
+  ProjectorModelNumber VARCHAR2(30),
+  PrinterModelNumber VARCHAR2(30),
+      CONSTRAINT classroom_CampusIDBuildingIDClassroomNumber_pk PRIMARY KEY (CampusID, BuildingID, ClassroomNumber),
+      CONSTRAINT classroom_CampusIDBuildingID_fk FOREIGN KEY (CampusID, BuildingID)
+      REFERENCES building (CampusID, BuildingID)
+);
+
+
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('1', 'Jeffers', 'Patrick', 'L', '7045557807', '01-FEB-08', '45000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('2', 'Calhoun', 'Jerry', 'D', '7044445678', '08-JAN-09', '43000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('3', 'Rando', 'Steve', NULL, '8035556325', '12-JUN-12', '40000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('4', 'Wright', 'Anna', 'M', '7044561237', '03-DEC-10', '53000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('5', 'Smith', 'David', NULL, '7047895656', '16-AUG-14', '60000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('6', 'Christmas', 'Lloyd', NULL, '7046632525', '23-MAR-20', '61000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('7', 'Ward', 'Mike', 'A', '7042356489', '23-NOV-11', '72000');
+
+INSERT INTO employee (EmployeeID, LastName, FirstName, MiddleInitial, PhoneNumber, StartDate, Salary)
+VALUES ('8', 'Hall', 'Arlo', NULL, '7045645251', '14-MAR-10', '35000');
+
+
+
+
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('1', 'Cato', '8120 Grier Road', 'Charlotte', 'NC', '28215', '8', '01-JUN-98');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('2', 'Central', '1141 Elizabeth Avenue', 'Charlotte', 'NC', '28204', '7', '03-JAN-83');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('3', 'City View Center', '1609 Alleghany Street', 'Charlotte', 'NC', '28208', '6', '25-NOV-04');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('4', 'Harper', '315 W Hebron Street', 'Charlotte', 'NC', '28273', '5', '12-MAR-02');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('5', 'Harris', '3210 CPCC Harris Campus Drive', 'Charlotte', 'NC', '28208', '4', '03-JAN-94');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('6', 'Levine', '2800 Campus Ridge Road', 'Matthews', 'NC', '28104', '3', '24-OCT-00');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('7', 'Merancas', '11930 Verhoeff Drive', 'Huntersville', 'NC', '28078', '2', '01-FEB-13');
+
+INSERT INTO campus (CampusID, CampusName, Address, City, State, Zip, EmployeeOfContact, DateOpened)
+VALUES ('8', 'WTVI PBS Charlotte', '3242 Commonwealth Avenue', 'Charlotte', 'NC', '28205', '1', '06-AUG-01');
+
+
+
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('2', '1', 'Overcash', '01-JAN-03', '2', '4', 'Y');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('2', '2', 'Worrell', '05-JUN-03', '4', '2', 'N');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('2', '3', 'Giles', '23-AUG-04', '1', '0', 'N');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('1', '1', 'Building 1', '24-AUG-04', '1', '0', 'Y');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('3', '1', 'Building 1', '16-JAN-04', '2', '2', 'Y');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('4', '1', 'Building 1', '05-FEB-04', '3', '2', 'Y');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('5', '1', 'Building 1', '11-MAR-04', '1', '0', 'N');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('6', '1', 'Building 1', '09-MAY-04', '2', '1', 'N');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('7', '1', 'Building 1', '26-OCT-04', '1', '0', 'Y');
+
+INSERT INTO building (CampusID, BuildingID, BuildingName, DateOpened, NumberOfFloors, NumberOfElevators, FoodYN)
+VALUES ('8', '1', 'Building 1', '15-NOV-04', '2', '1', 'N');
+
+
+
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '1', '1001', '35', '10', 'CANNON-1500', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '1', '1002', '40', '4', 'CANNON-1500', 'Epson C11CG29201');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '1', '1003', '32', '1', 'CANNON-1500', 'HP P1005');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '2', '1001', '32', '5', 'CANNON-1500', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '2', '1002', '34', '1', 'CANNON-1500', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '2', '1003', '48', '0', 'CANNON-1500', 'Epson C11CG29201');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '3', '1001', '300', '2', 'CANNON-1500', 'HP P1005');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '3', '1002', '15', '15', 'CANNON-1500', 'Kyocera M6635cidn');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('2', '3', '1003', '50', '5', 'CANNON-1500', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('1', '1', '1001', '60', '2', 'Sony VPL-VW995ES', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('1', '1', '1002', '40', '10', 'Epson EX3260', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('1', '1', '1003', '35', '6', NULL, 'Epson C11CG29201');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('3', '1', '1001', '25', '25', 'Philips NPX445', 'Kyocera M6635cidn');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('3', '1', '1002', '30', '1', 'LG PH30N', 'HP P1005');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('3', '1', '1003', '65', '0', 'Philips NPX445', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('4', '1', '1001', '30', '2', NULL, NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('4', '1', '1002', '34', '0', 'Sony VPL-VW995ES', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('4', '1', '1003', '44', '12', 'Philips NPX445', 'Kyocera M6635cidn');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('5', '1', '1001', '200', '0', 'Epson EX3260', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('5', '1', '1002', '150', '1', 'Philips NPX445', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('5', '1', '1003', '35', '3', NULL, NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('6', '1', '1001', '40', '2', 'Philips NPX445', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('6', '1', '1002', '45', '0', 'Sony VPL-VW995ES', 'Kyocera M6635cidn');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('6', '1', '1003', '38', '4', NULL, NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('7', '1', '1001', '35', '1', 'Epson EX3260', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('7', '1', '1002', '35', '1', 'Philips NPX445', 'Brother HL-L2370DW');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('7', '1', '1003', '35', '0', 'Sony VPL-VW995ES', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('8', '1', '1001', '50', '10', NULL, 'Epson C11CG29201');
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('8', '1', '1002', '55', '5', 'Epson EX3260', NULL);
+
+INSERT INTO classroom (CampusID, BuildingID, ClassroomNumber, NumberOfSeats, NumberOfComputers, ProjectorModelNumber, PrinterModelNumber)
+VALUES ('8', '1', '1003', '24', '1', 'Philips NPX445', 'HP P1005');
+
+
+
+
+SELECT * FROM employee;
+
+SELECT * FROM campus;
+
+SELECT * FROM building;
+
+SELECT * FROM classroom;
+
+
+
+
+SELECT CampusID || '-' || BuildingID || '-' || ClassroomNumber "Classroom Campus/Bldg/Room No", NumberOfSeats "Seat Count"
+FROM classroom;
+
+
+
+SELECT EmployeeID "Employee ID Number", LastName || ', ' || FirstName || ' ' || COALESCE(MiddleInitial, '') "Name", '$' || Salary "Salary"
+FROM employee;
+
+
+
+SELECT DISTINCT ProjectorModelNumber "Projector Model"
+FROM classroom
+WHERE ProjectorModelNumber IS NOT NULL;

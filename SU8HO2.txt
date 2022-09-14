@@ -1,0 +1,6 @@
+SELECT employee_id ||' '|| first_name ||' '|| last_name  as "Employee ID/Name",
+    TO_CHAR(ROUND(SUM(amount),0),'$999,999') as "Total Sales"
+    FROM employees JOIN all_sales ON all_sales.emp_id = employees.employee_id
+    WHERE salary < 250000
+    GROUP BY employee_id, first_name, last_name
+    ORDER BY (employee_id);
